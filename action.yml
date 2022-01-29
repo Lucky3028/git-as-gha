@@ -1,5 +1,8 @@
 name: Git as GitHub Actions Bot
 description: Set git config's user as GitHub Actions bot
+branding:
+  icon: git-commit
+  color: orange
 runs:
   using: composite
   steps:

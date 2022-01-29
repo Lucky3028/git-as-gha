@@ -15,7 +15,7 @@ runs:
         LEVELS=("system" "global" "local")
         printf '%s\n' "${LEVELS[@]}" | grep -qx $LEVEL
         if [ $? -eq 1 ]; then
-          echo "::error title=Input variable is not sufficient::Input (config-level) can be set to 'system', 'local', or 'global'."
+          echo "::error title=Unexpected input value::Input (config-level) can be set to 'system', 'local', or 'global'."
           exit 1
         fi
       env:

@@ -3,10 +3,27 @@ description: Set git config's user as GitHub Actions bot
 branding:
   icon: git-commit
   color: orange
+inputs:
+  config-level:
+    description: git config's level
+    required: false
+    default: local
 runs:
   using: composite
   steps:
     - run: |
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
+        LEVELS=("system" "global" "local")
+        printf '%s\n' "${LEVELS[@]}" | grep -qx $LEVEL
+        if [ $? -eq 1 ]; then
+          echo "::error title=Input variable is not sufficient::Input (config-level) can be set to 'system', 'local', or 'global'."
+          exit 1
+        fi
+      env:
+        LEVEL: ${{ inputs.config-level }}
+      shell: bash
+    - run: |
+        git config --$LEVEL user.email "github-actions[bot]@users.noreply.github.com"
+        git config --$LEVEL user.name "github-actions[bot]"
+      env:
+        LEVEL: ${{ inputs.config-level }}
       shell: bash

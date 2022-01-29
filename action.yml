@@ -1,4 +1,4 @@
-name: Git as GitHub Actions
+name: Git as GitHub Actions Bot
 description: Set git config's user as GitHub Actions bot
 runs:
   using: composite

@@ -7,20 +7,15 @@ inputs:
   config-level:
     description: git config's level
     required: false
-    default: local
+    default: 'local'
+    type: choice
+    options:
+      - system
+      - global
+      - local
 runs:
   using: composite
   steps:
-    - run: |
-        LEVELS=("system" "global" "local")
-        printf '%s\n' "${LEVELS[@]}" | grep -qx $LEVEL
-        if [ $? -eq 1 ]; then
-          echo "::error title=Unexpected input value::Input (config-level) can be set to 'system', 'local', or 'global'."
-          exit 1
-        fi
-      env:
-        LEVEL: ${{ inputs.config-level }}
-      shell: bash
     - run: |
         git config --$LEVEL user.email "github-actions[bot]@users.noreply.github.com"
         git config --$LEVEL user.name "github-actions[bot]"
